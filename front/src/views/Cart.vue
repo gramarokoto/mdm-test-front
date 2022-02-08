@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Cart v-model="$store.getters.getCart"/>
+    <Cart @input="setCart" v-model="cart"/>
   </div>
 </template>
 
@@ -13,12 +13,27 @@ export default {
   components: {
     Cart,
   },
+  computed: {
+    cart() {
+      // FIX warning computed proprety has no setter
+      return this.$store.getters.getCart;
+    },
+  },
+  methods: {
+    setCart() {
+      this.$store.dispatch('setCart', this.$store.getters.getCart);
+    },
+  },
   async created() {
-    const response = await axios.get('http://localhost:3000/cart');
-    if (response.status === 200) {
-      this.$store.dispatch('setCart', response.data);
+    if (localStorage.cart) {
+      this.$store.dispatch('setCart', JSON.parse(localStorage.cart));
     } else {
-      // TODO : handle error
+      const response = await axios.get('http://localhost:3000/cart');
+      if (response.status === 200) {
+        this.$store.dispatch('setCart', response.data);
+      } else {
+        // TODO : handle error
+      }
     }
   },
 };

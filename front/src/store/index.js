@@ -15,6 +15,7 @@ export default new Vuex.Store({
   actions: {
     setCart: (context, cart) => {
       context.commit('setCart', cart);
+      // localStorage.cart = JSON.stringify(cart);
     },
   },
   getters: {
