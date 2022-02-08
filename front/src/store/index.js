@@ -10,12 +10,23 @@ export default new Vuex.Store({
   mutations: {
     setCart: (state, cart) => {
       state.cart = cart;
+      console.log(state.cart);
+      // localStorage.cart = JSON.stringify(state.cart);
+    },
+    removeProduct: (state, keyToDelete) => {
+      console.log('mutations', keyToDelete);
+      state.cart[keyToDelete] = {};
+      delete state.cart[keyToDelete];
+      // localStorage.cart = JSON.stringify(state.cart);
     },
   },
   actions: {
     setCart: (context, cart) => {
       context.commit('setCart', cart);
-      // localStorage.cart = JSON.stringify(cart);
+    },
+    removeProduct: (context, keyToDelete) => {
+      console.log('actions', keyToDelete);
+      context.commit('removeProduct', keyToDelete);
     },
   },
   getters: {

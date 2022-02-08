@@ -11,6 +11,7 @@
       <button @click="increment">+</button>
     </div>
     <p>TOTAL : {{ value.price.base.amount * value.qty }} €</p>
+    <button @click="removeProduct(value.reference)">Supprimer</button>
   </div>
 </template>
 
@@ -30,6 +31,9 @@ export default {
     increment() {
       this.value.qty += 1;
       this.$emit('input');
+    },
+    removeProduct(ketToDelete) {
+      this.$store.dispatch('removeProduct', ketToDelete);
     },
   },
 };
