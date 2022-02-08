@@ -10,11 +10,24 @@
 </template>
 
 <script>
+import axios from 'axios';
 import MiniCartDialog from './components/MiniCartDialog.vue';
 
 export default {
   components: { MiniCartDialog },
   name: 'App',
+  async created() {
+    if (localStorage.cart) {
+      this.$store.dispatch('setCart', JSON.parse(localStorage.cart));
+    } else {
+      const response = await axios.get('http://localhost:3000/cart');
+      if (response.status === 200) {
+        this.$store.dispatch('setCart', response.data);
+      } else {
+        // TODO : handle error
+      }
+    }
+  },
 };
 </script>
 
