@@ -1,12 +1,22 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/cart">Panier ({{ $store.getters.getCartTotalQty }})</router-link>
+      <router-link to="/cart">Panier</router-link> |
+      <mini-cart-dialog />
     </div>
     <router-view/>
-  </div>
+  </v-app>
 </template>
+
+<script>
+import MiniCartDialog from './components/MiniCartDialog.vue';
+
+export default {
+  components: { MiniCartDialog },
+  name: 'App',
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -18,6 +28,7 @@
 }
 
 #nav {
+  display: flex;
   padding: 30px;
 
   a {
