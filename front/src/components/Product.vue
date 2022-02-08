@@ -6,12 +6,47 @@
     </div>
     <div>
       Qty :
-      <button @click="decrement">-</button>
+      <v-btn @click="decrement" small>-</v-btn>
       {{ value.qty }}
-      <button @click="increment">+</button>
+      <v-btn @click="increment" small>+</v-btn>
     </div>
     <p>TOTAL : {{ value.price.base.amount * value.qty }} €</p>
-    <button @click="removeProduct(value.reference)">Supprimer</button>
+    <v-dialog
+      v-model="removeDialog"
+      persistent
+      max-width="290"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+        >
+          Supprimer
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title class="text-h5">
+          Supprimer cet article ?
+        </v-card-title>
+        <v-card-text><h3>{{ value.name }}</h3></v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            text
+            @click="removeDialog = false"
+          >
+            Annuler
+          </v-btn>
+          <v-btn
+            color="red darken-1"
+            text
+            @click="removeProduct(value.reference)"
+          >
+            Confimer
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -22,6 +57,11 @@ export default {
     value: {
       type: Object,
     },
+  },
+  data() {
+    return {
+      removeDialog: false,
+    };
   },
   methods: {
     decrement() {
@@ -35,6 +75,7 @@ export default {
     },
     removeProduct(ketToDelete) {
       this.$store.dispatch('removeProduct', ketToDelete);
+      this.removeDialog = false;
     },
   },
 };
