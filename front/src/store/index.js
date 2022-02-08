@@ -6,7 +6,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     cart: null,
-    cartTotal: null,
   },
   mutations: {
     setCart: (state, cart) => {
@@ -14,7 +13,6 @@ export default new Vuex.Store({
       // localStorage.cart = JSON.stringify(state.cart);
     },
     removeProduct: (state, keyToDelete) => {
-      console.log('mutations', keyToDelete);
       state.cart[keyToDelete] = {};
       delete state.cart[keyToDelete];
       // localStorage.cart = JSON.stringify(state.cart);
@@ -25,7 +23,6 @@ export default new Vuex.Store({
       context.commit('setCart', cart);
     },
     removeProduct: (context, keyToDelete) => {
-      console.log('actions', keyToDelete);
       context.commit('removeProduct', keyToDelete);
     },
   },
@@ -36,6 +33,15 @@ export default new Vuex.Store({
         // eslint-disable-next-line arrow-body-style
         return Object.values(state.cart).reduce((prev, product) => {
           return prev + product.price.base.amount * product.qty;
+        }, 0);
+      }
+      return null;
+    },
+    getCartTotalQty(state) {
+      if (state.cart) {
+        // eslint-disable-next-line arrow-body-style
+        return Object.values(state.cart).reduce((prev, product) => {
+          return prev + product.qty;
         }, 0);
       }
       return null;

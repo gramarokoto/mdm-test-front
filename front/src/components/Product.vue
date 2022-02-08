@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     decrement() {
+      if (this.value.qty <= 0) return;
       this.value.qty -= 1;
       this.$emit('input');
     },
