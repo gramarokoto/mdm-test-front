@@ -6,11 +6,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     cart: null,
+    cartTotal: null,
   },
   mutations: {
     setCart: (state, cart) => {
       state.cart = cart;
-      console.log(state.cart);
       // localStorage.cart = JSON.stringify(state.cart);
     },
     removeProduct: (state, keyToDelete) => {
@@ -31,5 +31,14 @@ export default new Vuex.Store({
   },
   getters: {
     getCart: (state) => state.cart,
+    getCartTotal(state) {
+      if (state.cart) {
+        // eslint-disable-next-line arrow-body-style
+        return Object.values(state.cart).reduce((prev, product) => {
+          return prev + product.price.base.amount * product.qty;
+        }, 0);
+      }
+      return null;
+    },
   },
 });

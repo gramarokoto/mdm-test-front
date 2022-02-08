@@ -1,6 +1,7 @@
 <template>
   <div>
     <Cart @input="setCart" v-model="cart"/>
+    <h4>Total panier : {{ $store.getters.getCartTotal }} €</h4>
   </div>
 </template>
 
